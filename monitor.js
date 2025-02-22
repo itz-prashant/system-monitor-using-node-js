@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import os from 'node:os' 
 
 function monitor (){
@@ -15,9 +16,11 @@ function monitor (){
         })
         
         console.clear()
+        console.log(chalk.bgMagenta(`======System Stats=====`))
         console.table(usage)
-        const usedMemory = (os.totalmem() - os.freemem()) / (1024*1024*1024).toFixed(2)
-        console.log('Memory used:', usedMemory)
+        const usedMemory = (os.totalmem() - os.freemem()) / (1024*1024*1024)
+        
+        console.log('Memory used:', usedMemory.toFixed(2)+" "+"GB")
     }, 1000)
 }
 
