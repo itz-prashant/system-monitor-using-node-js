@@ -1,5 +1,7 @@
 // import * as fs from "node:fs";
 import * as fs from "node:fs/promises";
+import path from "node:path";
+
 
 function createFile(pathname) {
   // Aync api
@@ -51,15 +53,15 @@ async function createFile2(pathname) {
 
 // createFile('./hello-promise.txt')
 
-async function createFolder(foldername) {
+export async function createFolder(foldername) {
     await fs.mkdir(foldername, {recursive: true})
 }
 
-async function writeFile(pathname, content='') {
+export async function writeFile(pathname, content='') {
     await fs.writeFile(pathname, content)
 }
 
-async function appendFile(pathname, content='') {
+export async function appendFile(pathname, content='') {
     await fs.appendFile(pathname, content)
 }
 
@@ -68,11 +70,11 @@ async function readFile(pathname) {
     console.log(data)
 }
 
-async function deleteFile(filepath) {
+export async function deleteFile(filepath) {
     await fs.unlink(filepath)
 }
 
-async function deleteFolder(filepath) {
+export async function deleteFolder(filepath) {
     await fs.rm(filepath, {recursive: true})
 }
 
@@ -84,6 +86,17 @@ async function getFileInfo(filepath) {
         modified: stat.mtime.toLocaleString()
     }
 } 
+
+export async function listItem(listpath = './') {
+    const items = await fs.readdir(listpath, {withFileTypes: true})
+    return items.map(item => {
+        return {
+            name: item.name,
+            type: item.isDirectory() ? "Folder" : "File",
+            path : path.join(import.meta.dirname, item.name)
+        }
+    })
+}
 
 // writeFile('./hello.txt', 'Hello NodeJs \n')
 // createFolder('./content/image/logo')
